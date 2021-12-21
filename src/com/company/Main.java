@@ -1,16 +1,11 @@
 package com.company;
 
-import java.io.IOException;
-
 public class Main {
-    public static void ClearConsole() throws IOException, InterruptedException {
-        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-    }
-
     public static void main(String[] args) throws Exception {
-        //ClearConsole();
+        ChessBoard bc = new ChessBoard();
+        bc.CreateBoard();
 
-        BoardCreator bc = new BoardCreator();
-        bc.CreateStartingBoard();
+        PlayerInput inputManager = new PlayerInput(bc.boardPieces);
+        inputManager.TakeInput();
     }
 }
