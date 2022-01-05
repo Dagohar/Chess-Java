@@ -21,6 +21,7 @@ public class BoardPiecesPosition {
 
     public BoardPiecesPosition() {
         fields = new char[8][8];
+        //fieldsBlack = new char[8][8]; TODO: We need to recognise which piece is black and which is white
 
         for(int x = 0; x < 8; x++) {
             for(int y = 0; y < 8; y++) {

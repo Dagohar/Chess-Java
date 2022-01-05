@@ -1,5 +1,7 @@
 package com.company;
 
+import javafx.util.Pair;
+
 // Klasa odpowiada za budowanie szachownicy i jej odświeżanie
 public class ChessBoard {
     public BoardPiecesPosition boardPieces;
@@ -66,23 +68,43 @@ public class ChessBoard {
     }
 
     // Odświeża szachownicę po każdym ruchu
-    public void UpdateBoard() {
-        
+    public void UpdateBoard(Pair<Integer, Integer> position, Pair<Integer, Integer> destination) {
+        boardPieces.setField(destination ,boardPieces.getField(position));
+        boardPieces.setField(position, ' ');
+    }
+
+    public void ShowBoard()
+    {
+        int horCoordsIndex = 56;
+
+        for(int i = 0; i < 8; i++) {
+            System.out.print((char) horCoordsIndex-- + " |");
+            for(int j = 0; j < 8; j++) {
+                System.out.print(" ");
+                PrintColor(boardPieces.getField(j, 7 - i), false); //TODO: We need to recognise which piece is black and which is white
+                System.out.print(" |");
+            }
+            System.out.println();
+        }
+        System.out.println("    a   b   c   d   e   f   g   h");
+        System.out.println();
     }
 
     // Wypisuje pole w konsoli i przydziela figurę do tablicy pól
     private void CreateField(char piece, boolean isBlack, int x, int y) {
         System.out.print(" ");
+        PrintColor(piece, isBlack);
+        boardPieces.setField(x, y, piece);
+        System.out.print(" |");
+    }
 
+    private void PrintColor(char piece, boolean isBlack)
+    {
         if(isBlack) {
             ConsoleCommands.printBlack(piece);
         }
         else {
             System.out.print(piece);
         }
-
-        boardPieces.setField(x, y, piece);
-
-        System.out.print(" |");
     }
 }

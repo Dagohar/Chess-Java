@@ -5,7 +5,9 @@ public class Main {
         ChessBoard bc = new ChessBoard();
         bc.CreateBoard();
 
-        PlayerInput inputManager = new PlayerInput(bc.boardPieces);
-        inputManager.TakeInput();
+        PlayerInput inputManager = new PlayerInput(bc);
+        while(true) { //Infinite loop for now
+            inputManager.TakeInput();
+        }
     }
 }

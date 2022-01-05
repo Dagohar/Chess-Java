@@ -13,4 +13,6 @@ public class ConsoleCommands {
     public static void printBlack(char character) {
         System.out.print("\u001B[90m" + character + "\u001B[0m");
     }
+    public static void printStringRed(String string) { System.out.print("\u001B[31m" + string + "\u001B[0m"); }
+    public static void printStringRedLn(String string) { System.out.println("\u001B[31m" + string + "\u001B[0m"); }
 }
