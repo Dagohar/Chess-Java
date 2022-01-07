@@ -69,8 +69,8 @@ public class ChessBoard {
 
     // Odświeża szachownicę po każdym ruchu
     public void UpdateBoard(Pair<Integer, Integer> position, Pair<Integer, Integer> destination) {
-        boardPieces.setField(destination ,boardPieces.getField(position));
-        boardPieces.setField(position, ' ');
+        boardPieces.setField(destination, boardPieces.getField(position));
+        boardPieces.setField(position, ' ', false);
     }
 
     public void ShowBoard()
@@ -81,7 +81,8 @@ public class ChessBoard {
             System.out.print((char) horCoordsIndex-- + " |");
             for(int j = 0; j < 8; j++) {
                 System.out.print(" ");
-                PrintColor(boardPieces.getField(j, 7 - i), false); //TODO: We need to recognise which piece is black and which is white
+                BoardPiecesPosition.ChessField field = boardPieces.getField(new Pair<>(j, 7 - i));
+                PrintColor(field.piece, field.isBlack);
                 System.out.print(" |");
             }
             System.out.println();
@@ -94,14 +95,14 @@ public class ChessBoard {
     private void CreateField(char piece, boolean isBlack, int x, int y) {
         System.out.print(" ");
         PrintColor(piece, isBlack);
-        boardPieces.setField(x, y, piece);
+        boardPieces.setField(new Pair<>(x, y), piece, isBlack);
         System.out.print(" |");
     }
 
     private void PrintColor(char piece, boolean isBlack)
     {
         if(isBlack) {
-            ConsoleCommands.printBlack(piece);
+            ConsoleCommands.printCharBlack(piece);
         }
         else {
             System.out.print(piece);

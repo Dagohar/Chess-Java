@@ -9,8 +9,7 @@ public class ConsoleCommands {
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
     }
 
-    // Wyświetla znak w czarnym kolorze
-    public static void printBlack(char character) {
+    public static void printCharBlack(char character) {
         System.out.print("\u001B[90m" + character + "\u001B[0m");
     }
     public static void printStringRed(String string) { System.out.print("\u001B[31m" + string + "\u001B[0m"); }

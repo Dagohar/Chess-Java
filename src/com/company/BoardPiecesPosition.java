@@ -3,29 +3,45 @@ package com.company;
 import javafx.util.Pair;
 
 public class BoardPiecesPosition {
-    private final char[][] fields;
+    public class ChessField {
+        public char piece;
+        public boolean isBlack;
 
-    public char getField(int x, int y) {
-        return fields[x][y];
+        public ChessField() {
+            piece = ' ';
+            isBlack = false;
+        }
+
+        public ChessField(char piece, boolean isBlack) {
+            this.piece = piece;
+            this.isBlack = isBlack;
+        }
+
+        public ChessField(ChessField cf) {
+            piece = cf.piece;
+            isBlack = cf.isBlack;
+        }
     }
-    public char getField(Pair<Integer, Integer> coords) {
+
+    private ChessField[][] fields;
+
+    public ChessField getField(Pair<Integer, Integer> coords) {
         return fields[coords.getKey()][coords.getValue()];
     }
 
-    public void setField(int x, int y, char value) {
-        fields[x][y] = value;
+    public void setField(Pair<Integer, Integer> coords, char value, boolean isBlack) {
+        fields[coords.getKey()][coords.getValue()] = new ChessField(value, isBlack);
     }
-    public void setField(Pair<Integer, Integer> coords, char value) {
-        fields[coords.getKey()][coords.getValue()] = value;
+    public void setField(Pair<Integer, Integer> coords, ChessField field) {
+        fields[coords.getKey()][coords.getValue()] = new ChessField(field);
     }
 
     public BoardPiecesPosition() {
-        fields = new char[8][8];
-        //fieldsBlack = new char[8][8]; TODO: We need to recognise which piece is black and which is white
+        fields = new ChessField[8][8];
 
         for(int x = 0; x < 8; x++) {
             for(int y = 0; y < 8; y++) {
-                setField(x, y, ' ');
+                fields[x][y] = new ChessField();
             }
         }
     }

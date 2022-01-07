@@ -6,18 +6,12 @@ import java.util.Scanner;
 // Zarządza danymi wejściowymi gracza
 public class PlayerInput {
     private Pair<Character, Integer> position;
-    public Pair<Character, Integer> getChessPosition() {
-        return position;
-    }
-    public Pair<Integer, Integer> getNumberPosition() {
+    private Pair<Integer, Integer> getNumberPosition() {
         return Converter.ChessToNumberCoordinates(position);
     }
 
     private Pair<Character, Integer> destination;
-    public Pair<Character, Integer> getChessDestination() {
-        return destination;
-    }
-    public Pair<Integer, Integer> getNumberDestination() {
+    private Pair<Integer, Integer> getNumberDestination() {
         return Converter.ChessToNumberCoordinates(destination);
     }
 
@@ -55,7 +49,7 @@ public class PlayerInput {
 
     private void Move()
     {
-        if(piecesPosition.getField(getNumberPosition()) != 32)
+        if(piecesPosition.getField(getNumberPosition()).piece != 32)
             board.UpdateBoard(getNumberPosition(), getNumberDestination());
         else
             WrongMove = true;
@@ -67,7 +61,7 @@ public class PlayerInput {
         if(!WrongMove) {
             System.out.println(
                     "Przesunięto " +
-                            ChessDictionary.TranslateSymbolToName(piecesPosition.getField(getNumberDestination()), PolishCases.biernik) +
+                            ChessDictionary.TranslateSymbolToName(piecesPosition.getField(getNumberDestination()).piece, PolishCases.biernik) +
                             " z pozycji " + position.getKey() + position.getValue() + " na pozycję " + destination.getKey() + destination.getValue()
             );
         }
