@@ -20,10 +20,12 @@ public class PlayerInput {
     private final Scanner scanner = new Scanner(System.in);
     private final ChessBoard board;
     private final BoardPiecesPosition piecesPosition;
+    private final Judge judge;
 
     public PlayerInput(ChessBoard board) {
         this.board = board;
         this.piecesPosition = board.boardPieces;
+        this.judge = new Judge(this.piecesPosition);
     }
 
     public void TakeInput() {
@@ -49,7 +51,7 @@ public class PlayerInput {
 
     private void Move()
     {
-        if(piecesPosition.getField(getNumberPosition()).piece != 32)
+        if(judge.CanMove(getNumberPosition(), getNumberDestination()))
             board.UpdateBoard(getNumberPosition(), getNumberDestination());
         else
             WrongMove = true;
