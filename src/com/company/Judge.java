@@ -1,13 +1,12 @@
 package com.company;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import javafx.util.Pair;
 
 // Klasa sprawdza legalność ruchów obu graczy i zwraca odpowiednią odpowiedź
 public class Judge {
-    private BoardPiecesPosition piecesPosition;
+    private final BoardPiecesPosition piecesPosition;
 
-    private Character piece;
+    private BoardPiecesPosition.ChessField chessField;
     private Pair<Integer, Integer> piecePosition;
     private Pair<Integer, Integer> pieceDestination;
 
@@ -20,7 +19,7 @@ public class Judge {
         this.pieceDestination = pieceDestination;
 
         if(IsNotEmpty() && !IsSamePlace()) {
-            switch(piece) {
+            switch(chessField.piece) {
                 case 'K': return CanKingMove();
                 case 'H': return !IsKingInDangerOnMove() && CanQueenMove() && !IsAvoidingPiecesOnPath();
                 case 'W': return !IsKingInDangerOnMove() && CanRookMove() && !IsAvoidingPiecesOnPath();
@@ -34,13 +33,13 @@ public class Judge {
     }
 
     private boolean IsNotEmpty() {
-        return (piece = piecesPosition.getField(piecePosition).piece) != 32;
+        return (chessField = piecesPosition.getField(piecePosition)).piece != 32;
     }
 
     private boolean IsSamePlace() {
         return (piecePosition.getKey().equals(pieceDestination.getKey()) && piecePosition.getValue().equals(pieceDestination.getValue()));
     }
-    
+
     private boolean IsAvoidingPiecesOnPath() {
         //TODO:
         return false;
@@ -68,7 +67,7 @@ public class Judge {
 
     private boolean CanBishopMove() {
         //TODO:
-        return true;
+        return IsDiagonalLine();
     }
 
     private boolean CanKnightMove() {
@@ -77,7 +76,37 @@ public class Judge {
     }
 
     private boolean CanPawnMove() {
-        //TODO:
-        return true;
+        if(IsVerticalLine()) {
+            if(chessField.isBlack) {
+                if(piecePosition.getValue() == 6) {
+                    return piecePosition.getValue() - pieceDestination.getValue() <= 2;
+                }
+                else {
+                    return piecePosition.getValue() - pieceDestination.getValue() == 1;
+                }
+            }
+            else {
+                if(piecePosition.getValue() == 1) {
+                    return pieceDestination.getValue() - piecePosition.getValue() <= 2;
+                }
+                else {
+                    return pieceDestination.getValue() - piecePosition.getValue() == 1;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean IsVerticalLine() {
+        return piecePosition.getKey() - pieceDestination.getKey() == 0;
+    }
+
+    private boolean IsHorizontalLine() {
+        return piecePosition.getValue() - pieceDestination.getValue() == 0;
+    }
+
+    private boolean IsDiagonalLine() {
+        return MathExtended.IsSquareDiagonal(piecePosition, pieceDestination);
     }
 }
