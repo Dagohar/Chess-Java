@@ -3,6 +3,14 @@ package com.company;
 import javafx.util.Pair;
 
 public class MathExtended {
+    public static double RoundToDecimalPlaces(double number, int decimalPlaces) {
+        if(decimalPlaces <= 0) {
+            return Math.round(number);
+        }
+
+        return Math.round(number * Math.pow(10.0, decimalPlaces)) / Math.pow(10.0, decimalPlaces);
+    }
+
     public static double Magnitude(Pair<Integer, Integer> initialPoint, Pair<Integer, Integer> finalPoint) {
         Pair<Integer, Integer> vectorLength = new Pair<> (
                 finalPoint.getKey() - initialPoint.getKey(), finalPoint.getValue() - initialPoint.getValue()

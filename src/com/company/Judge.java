@@ -5,6 +5,7 @@ import javafx.util.Pair;
 // Klasa sprawdza legalność ruchów obu graczy i zwraca odpowiednią odpowiedź
 public class Judge {
     private final BoardPiecesPosition piecesPosition;
+    private final AttackingJudge attackJudge;
 
     private BoardPiecesPosition.ChessField chessField;
     private Pair<Integer, Integer> piecePosition;
@@ -12,24 +13,31 @@ public class Judge {
 
     public Judge(BoardPiecesPosition piecesPosition) {
         this.piecesPosition = piecesPosition;
+        attackJudge = new AttackingJudge(piecesPosition);
     }
 
     public boolean CanMove(Pair<Integer, Integer> piecePosition, Pair<Integer, Integer> pieceDestination) {
+        boolean isMoveValid = false;
+
         this.piecePosition = piecePosition;
         this.pieceDestination = pieceDestination;
 
         if(IsNotEmpty() && !IsSamePlace()) {
             switch(chessField.piece) {
-                case 'K': return CanKingMove();
-                case 'H': return !IsKingInDangerOnMove() && CanQueenMove() && !IsAvoidingPiecesOnPath();
-                case 'W': return !IsKingInDangerOnMove() && CanRookMove() && !IsAvoidingPiecesOnPath();
-                case 'G': return !IsKingInDangerOnMove() && CanBishopMove() && !IsAvoidingPiecesOnPath();
-                case 'S': return !IsKingInDangerOnMove() && CanKnightMove() && !IsAvoidingPiecesOnPath();
-                case 'P': return !IsKingInDangerOnMove() && CanPawnMove() && !IsAvoidingPiecesOnPath();
+                case 'K': isMoveValid = CanKingMove(); break;
+                case 'H': isMoveValid = !IsKingInDangerOnMove() && CanQueenMove() && !IsAvoidingPiecesOnPath(); break;
+                case 'W': isMoveValid = !IsKingInDangerOnMove() && CanRookMove() && !IsAvoidingPiecesOnPath(); break;
+                case 'G': isMoveValid = !IsKingInDangerOnMove() && CanBishopMove() && !IsAvoidingPiecesOnPath(); break;
+                case 'S': isMoveValid = !IsKingInDangerOnMove() && CanKnightMove() && !IsAvoidingPiecesOnPath(); break;
+                case 'P': isMoveValid = !IsKingInDangerOnMove() && CanPawnMove() && !IsAvoidingPiecesOnPath(); break;
             }
         }
 
-        return false;
+        if(isMoveValid && piecesPosition.getField(pieceDestination).piece != ' ') {
+            isMoveValid = attackJudge.CanAttack(piecePosition, pieceDestination);
+        }
+
+        return isMoveValid;
     }
 
     private boolean IsNotEmpty() {
@@ -56,26 +64,26 @@ public class Judge {
     }
 
     private boolean CanQueenMove() {
-        //TODO:
-        return true;
+        return IsVerticalLine() || IsHorizontalLine() || IsDiagonalLine();
     }
 
     private boolean CanRookMove() {
-        //TODO:
-        return true;
+        return IsVerticalLine() || IsHorizontalLine();
     }
 
     private boolean CanBishopMove() {
-        //TODO:
         return IsDiagonalLine();
     }
 
     private boolean CanKnightMove() {
-        //TODO:
-        return true;
+        return MathExtended.RoundToDecimalPlaces(MathExtended.Magnitude(piecePosition, pieceDestination), 2) == 2.24;
     }
 
     private boolean CanPawnMove() {
+        if(piecesPosition.getField(pieceDestination).piece != ' ') {
+            return true;
+        }
+
         if(IsVerticalLine()) {
             if(chessField.isBlack) {
                 if(piecePosition.getValue() == 6) {
