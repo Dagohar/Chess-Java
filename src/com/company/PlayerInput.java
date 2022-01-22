@@ -38,15 +38,38 @@ public class PlayerInput {
     // Przyjmuje pozycję figury, którą chcemy poruszyć
     private void TakePositionInput() {
         System.out.print("Wpisz pozycję figury, którą chcesz poruszyć np. {E2}: ");
-        String input = scanner.nextLine();
-        position = new Pair<>(Character.toUpperCase(input.charAt(0)), input.charAt(1) - 48);
+        try {
+            String input = scanner.nextLine();
+            if(input.length() != 2) { throw new StringIndexOutOfBoundsException(); }
+            position = new Pair<>(Character.toUpperCase(input.charAt(0)), input.charAt(1) - 48);
+            if(!IsInputValid(position)) { throw new StringIndexOutOfBoundsException(); }
+        }
+        catch (StringIndexOutOfBoundsException e) {
+            ConsoleCommands.printStringRedLn("Wykryto niedozwolony ruch. Spróbuj jeszcze raz.");
+            TakePositionInput();
+        }
     }
 
     // Przyjmuje pozycję, na którą chcemy przesunąć figurę
     private void TakeDestinationInput() {
         System.out.print("Wpisz współrzędne pozycji, na którą chcesz przesunąć figurę np. {E4}: ");
-        String input = scanner.nextLine();
-        destination = new Pair<>(Character.toUpperCase(input.charAt(0)), input.charAt(1) - 48);
+        try {
+            String input = scanner.nextLine();
+            if(input.length() != 2) { throw new StringIndexOutOfBoundsException(); }
+            destination = new Pair<>(Character.toUpperCase(input.charAt(0)), input.charAt(1) - 48);
+            if(!IsInputValid(destination)) { throw new StringIndexOutOfBoundsException(); }
+        }
+        catch (StringIndexOutOfBoundsException e) {
+            ConsoleCommands.printStringRedLn("Wykryto złą pozycję. Spróbuj jeszcze raz.");
+            TakeDestinationInput();
+        }
+    }
+
+    private boolean IsInputValid(Pair<Character, Integer> input) {
+        Pair<Integer, Integer> numberCoords = Converter.ChessToNumberCoordinates(input);
+
+        return (numberCoords.getKey() >= 0 && numberCoords.getKey() <= 7) &&
+                (numberCoords.getValue() >= 0 && numberCoords.getValue() <= 7);
     }
 
     private void Move()
