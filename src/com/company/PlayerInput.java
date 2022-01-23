@@ -88,8 +88,7 @@ public class PlayerInput {
         System.out.println();
 
         if(!WrongMove) {
-            notation.WriteToFile(board.MoveNumber + ". " + piecesPosition.getField(getNumberDestination()).piece + position.getKey()
-                    + position.getValue() + "-" + destination.getKey() + destination.getValue());
+            notation.WriteToFile(board.MoveNumber, piecesPosition.getField(getNumberDestination()).piece, position, destination);
             System.out.println(
                     "Przesunięto " +
                             ChessDictionary.TranslateSymbolToName(piecesPosition.getField(getNumberDestination()).piece, PolishCases.biernik) +

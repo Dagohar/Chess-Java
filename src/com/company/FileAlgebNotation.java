@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.text.*;
 import java.lang.Runtime;
+import javafx.util.Pair;
 
 public class FileAlgebNotation {
 
@@ -26,8 +27,12 @@ public class FileAlgebNotation {
         Runtime.getRuntime().addShutdownHook(FileSave);
     }
 
-    public void WriteToFile(String content)
+    public void WriteToFile(int RoundNumber, char Piece, Pair<Character, Integer> position, Pair<Character, Integer> destination)
     {
-        FilePrint.println(content);
+        FilePrint.print(RoundNumber + ". ");
+        if(Piece != 'P')
+            FilePrint.print(Piece);
+        FilePrint.println(position.getKey().toString().toLowerCase() + position.getValue() + "-"
+                + destination.getKey().toString().toLowerCase() + destination.getValue());
     }
 }
