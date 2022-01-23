@@ -28,7 +28,7 @@ public class Judge {
                 case 'H': isMoveValid = !IsKingInDangerOnMove() && CanQueenMove() && !IsAvoidingPiecesOnPath(); break;
                 case 'W': isMoveValid = !IsKingInDangerOnMove() && CanRookMove() && !IsAvoidingPiecesOnPath(); break;
                 case 'G': isMoveValid = !IsKingInDangerOnMove() && CanBishopMove() && !IsAvoidingPiecesOnPath(); break;
-                case 'S': isMoveValid = !IsKingInDangerOnMove() && CanKnightMove() && !IsAvoidingPiecesOnPath(); break;
+                case 'S': isMoveValid = !IsKingInDangerOnMove() && CanKnightMove(); break;
                 case 'P': isMoveValid = !IsKingInDangerOnMove() && CanPawnMove() && !IsAvoidingPiecesOnPath(); break;
             }
         }
@@ -49,7 +49,49 @@ public class Judge {
     }
 
     private boolean IsAvoidingPiecesOnPath() {
-        //TODO:
+        int minKey, maxKey;
+        int minVal, maxVal;
+
+        minKey = Math.min(piecePosition.getKey(), pieceDestination.getKey());
+        maxKey = Math.max(piecePosition.getKey(), pieceDestination.getKey());
+
+        minVal = Math.min(piecePosition.getValue(), pieceDestination.getValue());
+        maxVal = Math.max(piecePosition.getValue(), pieceDestination.getValue());
+
+        if(IsVerticalLine()) {
+            for(int val = minVal + 1; val < maxVal; val++) {
+                if(piecesPosition.getField(new Pair<>(piecePosition.getKey(), val)).piece != ' ') {
+                   return true;
+                }
+            }
+        }
+        else if(IsHorizontalLine()) {
+            for(int key = minKey + 1; key < maxKey; key++) {
+                if(piecesPosition.getField(new Pair<>(key, piecePosition.getValue())).piece != ' ') {
+                    return true;
+                }
+            }
+        }
+        else if(IsDiagonalLine()) {
+            int x1 = piecePosition.getKey(), x2 = pieceDestination.getKey();
+            int y1 = piecePosition.getValue(), y2 = pieceDestination.getValue();
+
+            if(x2 < x1) {
+                x1 = pieceDestination.getKey();
+                x2 = piecePosition.getKey();
+                y1 = pieceDestination.getValue();
+                y2 = piecePosition.getValue();
+            }
+
+            for(int x = x1 + 1; x < x2; x++) {
+                y1 += y2 > y1 ? 1 : -1;
+
+                if(piecesPosition.getField(new Pair<>(x, y1)).piece != ' ') {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 

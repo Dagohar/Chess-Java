@@ -25,8 +25,8 @@ public class MathExtended {
         length1 = Magnitude(firstPoint, new Pair<>(firstPoint.getKey(), lastPoint.getValue()));
         length2 = Magnitude(firstPoint, new Pair<>(lastPoint.getKey(), firstPoint.getValue()));
 
-        System.out.println(firstPoint.getKey() + ", " + firstPoint.getValue() + " : " + firstPoint.getKey() + ", " + lastPoint.getValue());
-        System.out.println(firstPoint.getKey() + ", " + firstPoint.getValue() + " : " + lastPoint.getKey() + ", " + firstPoint.getValue());
+        //System.out.println(firstPoint.getKey() + ", " + firstPoint.getValue() + " : " + firstPoint.getKey() + ", " + lastPoint.getValue());
+        //System.out.println(firstPoint.getKey() + ", " + firstPoint.getValue() + " : " + lastPoint.getKey() + ", " + firstPoint.getValue());
 
         return length1 == length2;
     }
