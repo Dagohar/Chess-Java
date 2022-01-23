@@ -59,10 +59,6 @@ public class AttackingJudge {
     }
 
     private boolean CanPawnAttack() {
-        System.out.print(Math.abs(piecePosition.getKey() - pieceDestination.getKey()));
-        System.out.print(", ");
-        System.out.println(piecePosition.getValue() - pieceDestination.getValue());
-
         if(chessField.isBlack) {
             return (Math.abs(piecePosition.getKey() - pieceDestination.getKey()) == 1) &&
                     (piecePosition.getValue() - pieceDestination.getValue() == 1);

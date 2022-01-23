@@ -21,11 +21,13 @@ public class PlayerInput {
     private final ChessBoard board;
     private final BoardPiecesPosition piecesPosition;
     private final Judge judge;
+    private final FileAlgebNotation notation;
 
     public PlayerInput(ChessBoard board) {
         this.board = board;
         this.piecesPosition = board.boardPieces;
         this.judge = new Judge(this.piecesPosition);
+        this.notation = new FileAlgebNotation();
     }
 
     public void TakeInput() {
@@ -74,8 +76,10 @@ public class PlayerInput {
 
     private void Move()
     {
-        if(judge.CanMove(getNumberPosition(), getNumberDestination()))
+        if(judge.CanMove(getNumberPosition(), getNumberDestination())) {
             board.UpdateBoard(getNumberPosition(), getNumberDestination());
+            board.MoveNumber++;
+        }
         else
             WrongMove = true;
     }
@@ -84,6 +88,8 @@ public class PlayerInput {
         System.out.println();
 
         if(!WrongMove) {
+            notation.WriteToFile(board.MoveNumber + ". " + piecesPosition.getField(getNumberDestination()).piece + position.getKey()
+                    + position.getValue() + "-" + destination.getKey() + destination.getValue());
             System.out.println(
                     "Przesunięto " +
                             ChessDictionary.TranslateSymbolToName(piecesPosition.getField(getNumberDestination()).piece, PolishCases.biernik) +

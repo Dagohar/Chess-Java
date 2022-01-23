@@ -5,6 +5,7 @@ import javafx.util.Pair;
 // Klasa odpowiada za budowanie szachownicy i jej odświeżanie
 public class ChessBoard {
     public BoardPiecesPosition boardPieces;
+    public int MoveNumber = 0;
 
     // Tworzy szachownicę
     public void CreateBoard() {
