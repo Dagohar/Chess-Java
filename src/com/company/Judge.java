@@ -100,10 +100,7 @@ public class Judge {
         return false;
     }
 
-    private boolean CanKingMove() {
-        //TODO:
-        return true;
-    }
+    private boolean CanKingMove() { return (IsVerticalLine() || IsHorizontalLine() || IsDiagonalLine()) && IsOneFieldAway(); }
 
     private boolean CanQueenMove() {
         return IsVerticalLine() || IsHorizontalLine() || IsDiagonalLine();
@@ -158,5 +155,13 @@ public class Judge {
 
     private boolean IsDiagonalLine() {
         return MathExtended.IsSquareDiagonal(piecePosition, pieceDestination);
+    }
+
+    private boolean IsOneFieldAway() {
+        if(Math.abs(piecePosition.getKey() - pieceDestination.getKey()) > 1)
+            return false;
+        if(Math.abs(piecePosition.getValue() - pieceDestination.getValue()) > 1)
+            return false;
+        return true;
     }
 }
