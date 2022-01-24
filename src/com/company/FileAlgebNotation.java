@@ -20,13 +20,18 @@ public class FileAlgebNotation {
             Date date = new Date();
             FileName = "szachy-" + dateFormat.format(date) + ".txt";
             FilePrint = new PrintWriter(new BufferedWriter(new FileWriter(FileName, true)));
+            //Game will close stream before exiting application
+            Thread FileSave = new Thread(() -> FilePrint.close());
+            Runtime.getRuntime().addShutdownHook(FileSave);
+        }
+        catch(IOException e)
+        {
+            PrintColoredText.printStringRedLn("IOException: " + e.getMessage());
         }
         catch(Exception e)
         {
             PrintColoredText.printStringRedLn("Exception: " + e.getMessage());
         }
-        Thread FileSave = new Thread(() -> FilePrint.close());
-        Runtime.getRuntime().addShutdownHook(FileSave);
     }
 
     public void WriteToFile(int RoundNumber, char Piece, Pair<Character, Integer> position, Pair<Character, Integer> destination)

@@ -4,6 +4,8 @@ import custom.exceptions.*;
 import custom.math.Converter;
 import custom.text.*;
 import javafx.util.Pair;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 // Zarządza danymi wejściowymi gracza
@@ -105,6 +107,8 @@ public class PlayerInput {
     }
 
     private void DisplayMoveDetails() {
+        System.out.print("\033[H\033[2J"); //Clear screen
+        System.out.flush();
         System.out.println();
 
         if(!WrongMove) {

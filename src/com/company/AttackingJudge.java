@@ -23,11 +23,11 @@ public class AttackingJudge {
         }
 
         switch(chessField.piece) {
-            case 'K': return true;
-            case 'H': return CanQueenAttack();
-            case 'W': return CanRookAttack();
-            case 'G': return CanBishopAttack();
-            case 'S': return CanKnightAttack();
+            case 'K':
+            case 'H':
+            case 'W':
+            case 'G':
+            case 'S': return true;
             case 'P': return CanPawnAttack();
         }
 
@@ -38,12 +38,8 @@ public class AttackingJudge {
         return chessField.isBlack == piecesPosition.getField(pieceDestination).isBlack;
     }
 
+    //region This methods are not required as these pieces attack the same as they move
     private boolean CanQueenAttack() {
-        //TODO:
-        return true;
-    }
-
-    private boolean CanRookAttack() {
         //TODO:
         return true;
     }
@@ -58,6 +54,11 @@ public class AttackingJudge {
         return true;
     }
 
+    private boolean CanRookAttack() {
+        //TODO:
+        return true;
+    }
+    //endregion
     private boolean CanPawnAttack() {
         if(chessField.isBlack) {
             return (Math.abs(piecePosition.getKey() - pieceDestination.getKey()) == 1) &&
