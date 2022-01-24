@@ -80,6 +80,17 @@ public class ChessBoard {
     public void UpdateBoard(Pair<Integer, Integer> position, Pair<Integer, Integer> destination) {
         boardPieces.setField(destination, boardPieces.getField(position));
         boardPieces.setField(position, ' ', false);
+        if(boardPieces.getField(position).piece == 'K')
+        {
+            if(boardPieces.getField(position).isBlack)
+            {
+                GamePositionJudge.KingPositionBlack = destination;
+            }
+            else
+            {
+                GamePositionJudge.KingPositionWhite = destination;
+            }
+        }
     }
 
     public void ShowBoard()

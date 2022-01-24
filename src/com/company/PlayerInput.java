@@ -22,6 +22,7 @@ public class PlayerInput {
 
     public static boolean WhitesTurn = true;
     private boolean WrongMove = false;
+    private boolean Check = false;
 
     private final Scanner scanner = new Scanner(System.in);
     private final ChessBoard board;
@@ -99,6 +100,7 @@ public class PlayerInput {
     {
         if(judge.CanMove(getNumberPosition(), getNumberDestination())) {
             board.UpdateBoard(getNumberPosition(), getNumberDestination());
+            Check = judge.CheckForCheck();
             WhitesTurn = !WhitesTurn;
             board.MoveNumber++;
         }
@@ -123,6 +125,10 @@ public class PlayerInput {
         {
             PrintColoredText.printStringRedLn("Wykryto niedozwolony ruch");
             WrongMove = false;
+        }
+        if(Check)
+        {
+            PrintColoredText.printStringRedLn("Szach!");
         }
         board.ShowBoard();
     }

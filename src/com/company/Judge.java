@@ -42,6 +42,14 @@ public class Judge {
         return isMoveValid;
     }
 
+    public boolean CheckForCheck()
+    {
+        if(PlayerInput.WhitesTurn)
+            return gamePositionJudge.IsChecked(GamePositionJudge.KingPositionBlack, true);
+        else
+            return gamePositionJudge.IsChecked(GamePositionJudge.KingPositionWhite, false);
+    }
+
     private boolean IsAvoidingPiecesOnPath() {
         int minKey, maxKey;
         int minVal, maxVal;
