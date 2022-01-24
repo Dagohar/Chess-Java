@@ -1,5 +1,6 @@
 package com.company;
 
+import custom.math.MathExtended;
 import javafx.util.Pair;
 
 // Klasa sprawdza legalność ruchów obu graczy i zwraca odpowiednią odpowiedź

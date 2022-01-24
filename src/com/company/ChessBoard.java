@@ -1,5 +1,6 @@
 package com.company;
 
+import custom.text.PrintColoredText;
 import javafx.util.Pair;
 
 // Klasa odpowiada za budowanie szachownicy i jej odświeżanie
@@ -15,7 +16,7 @@ public class ChessBoard {
             System.out.println("RUCH BIAŁYCH");
         }
         else {
-            ConsoleCommands.printStringBlack("RUCH CZARNYCH");
+            PrintColoredText.printStringBlackLn("RUCH CZARNYCH");
         }
 
         int horCoordsIndex = 56;
@@ -87,7 +88,7 @@ public class ChessBoard {
             System.out.println("RUCH BIAŁYCH");
         }
         else {
-            ConsoleCommands.printStringBlack("RUCH CZARNYCH");
+            PrintColoredText.printStringBlackLn("RUCH CZARNYCH");
         }
 
         int horCoordsIndex = 56;
@@ -117,7 +118,7 @@ public class ChessBoard {
     private void PrintColor(char piece, boolean isBlack)
     {
         if(isBlack) {
-            ConsoleCommands.printCharBlack(piece);
+            PrintColoredText.printCharBlack(piece);
         }
         else {
             System.out.print(piece);

@@ -1,6 +1,8 @@
 package com.company;
 
 import custom.exceptions.*;
+import custom.math.Converter;
+import custom.text.*;
 import javafx.util.Pair;
 import java.util.Scanner;
 
@@ -53,15 +55,15 @@ public class PlayerInput {
             if(chessField.isBlack == WhitesTurn) { throw new WrongColorException(); }
         }
         catch (StringIndexOutOfBoundsException e) {
-            ConsoleCommands.printStringRedLn("Wykryto złą pozycję.");
+            PrintColoredText.printStringRedLn("Wykryto złą pozycję.");
             TakePositionInput();
         }
         catch (WrongColorException wce) {
-            ConsoleCommands.printStringRedLn(wce.getMessage());
+            PrintColoredText.printStringRedLn(wce.getMessage());
             TakePositionInput();
         }
         catch (EmptyFieldException efe) {
-            ConsoleCommands.printStringRedLn(efe.getMessage());
+            PrintColoredText.printStringRedLn(efe.getMessage());
             TakePositionInput();
         }
     }
@@ -76,7 +78,7 @@ public class PlayerInput {
             if(!IsInputValid(destination)) { throw new StringIndexOutOfBoundsException(); }
         }
         catch (StringIndexOutOfBoundsException e) {
-            ConsoleCommands.printStringRedLn("Wykryto złą pozycję.");
+            PrintColoredText.printStringRedLn("Wykryto złą pozycję.");
             TakeDestinationInput();
         }
     }
@@ -112,7 +114,7 @@ public class PlayerInput {
         }
         else
         {
-            ConsoleCommands.printStringRedLn("Wykryto niedozwolony ruch");
+            PrintColoredText.printStringRedLn("Wykryto niedozwolony ruch");
             WrongMove = false;
         }
         board.ShowBoard();

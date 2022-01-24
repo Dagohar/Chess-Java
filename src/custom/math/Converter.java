@@ -1,4 +1,4 @@
-package com.company;
+package custom.math;
 
 import javafx.util.Pair;
 

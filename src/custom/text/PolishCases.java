@@ -1,4 +1,4 @@
-package com.company;
+package custom.text;
 
 public enum PolishCases {
     mianownik,

@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.*;
 import java.text.*;
 import java.lang.Runtime;
+
+import custom.text.PrintColoredText;
 import javafx.util.Pair;
 
 public class FileAlgebNotation {
@@ -21,7 +23,7 @@ public class FileAlgebNotation {
         }
         catch(Exception e)
         {
-            ConsoleCommands.printStringRedLn("Exception: " + e.getMessage());
+            PrintColoredText.printStringRedLn("Exception: " + e.getMessage());
         }
         Thread FileSave = new Thread(() -> FilePrint.close());
         Runtime.getRuntime().addShutdownHook(FileSave);

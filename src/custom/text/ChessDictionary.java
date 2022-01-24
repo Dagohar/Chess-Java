@@ -1,4 +1,4 @@
-package com.company;
+package custom.text;
 
 // Klasa odpowiada za tłumaczenie poszczególnych zagadnień
 public class ChessDictionary {
