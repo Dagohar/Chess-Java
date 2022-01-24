@@ -47,6 +47,7 @@ public class PlayerInput {
         try {
             String input = scanner.nextLine();
             if(input.length() != 2) { throw new StringIndexOutOfBoundsException(); }
+
             position = new Pair<>(Character.toUpperCase(input.charAt(0)), input.charAt(1) - 48);
             if(!IsInputValid(position)) { throw new StringIndexOutOfBoundsException(); }
 
@@ -74,8 +75,10 @@ public class PlayerInput {
         try {
             String input = scanner.nextLine();
             if(input.length() != 2) { throw new StringIndexOutOfBoundsException(); }
+
             destination = new Pair<>(Character.toUpperCase(input.charAt(0)), input.charAt(1) - 48);
             if(!IsInputValid(destination)) { throw new StringIndexOutOfBoundsException(); }
+            if(position.getKey().equals(destination.getKey()) && position.getValue().equals(destination.getValue())) { throw new StringIndexOutOfBoundsException(); }
         }
         catch (StringIndexOutOfBoundsException e) {
             PrintColoredText.printStringRedLn("Wykryto złą pozycję.");

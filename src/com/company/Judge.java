@@ -7,6 +7,7 @@ import javafx.util.Pair;
 public class Judge {
     private final BoardPiecesPosition piecesPosition;
     private final AttackingJudge attackJudge;
+    private final GamePositionJudge gamePositionJudge;
 
     private BoardPiecesPosition.ChessField chessField;
     private Pair<Integer, Integer> piecePosition;
@@ -15,6 +16,7 @@ public class Judge {
     public Judge(BoardPiecesPosition piecesPosition) {
         this.piecesPosition = piecesPosition;
         attackJudge = new AttackingJudge(piecesPosition);
+        gamePositionJudge = new GamePositionJudge(piecesPosition);
     }
 
     public boolean CanMove(Pair<Integer, Integer> piecePosition, Pair<Integer, Integer> pieceDestination) {
@@ -22,16 +24,15 @@ public class Judge {
 
         this.piecePosition = piecePosition;
         this.pieceDestination = pieceDestination;
+        this.chessField = piecesPosition.getField(piecePosition);
 
-        if(IsNotEmpty() && !IsSamePlace()) {
-            switch(chessField.piece) {
-                case 'K': isMoveValid = CanKingMove(); break;
-                case 'H': isMoveValid = !IsKingInDangerOnMove() && CanQueenMove() && !IsAvoidingPiecesOnPath(); break;
-                case 'W': isMoveValid = !IsKingInDangerOnMove() && CanRookMove() && !IsAvoidingPiecesOnPath(); break;
-                case 'G': isMoveValid = !IsKingInDangerOnMove() && CanBishopMove() && !IsAvoidingPiecesOnPath(); break;
-                case 'S': isMoveValid = !IsKingInDangerOnMove() && CanKnightMove(); break;
-                case 'P': isMoveValid = !IsKingInDangerOnMove() && CanPawnMove() && !IsAvoidingPiecesOnPath(); break;
-            }
+        switch(chessField.piece) {
+            case 'K': isMoveValid = CanKingMove(); break;
+            case 'H': isMoveValid = !IsKingInDangerOnMove() && CanQueenMove() && !IsAvoidingPiecesOnPath(); break;
+            case 'W': isMoveValid = !IsKingInDangerOnMove() && CanRookMove() && !IsAvoidingPiecesOnPath(); break;
+            case 'G': isMoveValid = !IsKingInDangerOnMove() && CanBishopMove() && !IsAvoidingPiecesOnPath(); break;
+            case 'S': isMoveValid = !IsKingInDangerOnMove() && CanKnightMove(); break;
+            case 'P': isMoveValid = !IsKingInDangerOnMove() && CanPawnMove() && !IsAvoidingPiecesOnPath(); break;
         }
 
         if(isMoveValid && piecesPosition.getField(pieceDestination).piece != ' ') {
@@ -39,14 +40,6 @@ public class Judge {
         }
 
         return isMoveValid;
-    }
-
-    private boolean IsNotEmpty() {
-        return (chessField = piecesPosition.getField(piecePosition)).piece != 32;
-    }
-
-    private boolean IsSamePlace() {
-        return (piecePosition.getKey().equals(pieceDestination.getKey()) && piecePosition.getValue().equals(pieceDestination.getValue()));
     }
 
     private boolean IsAvoidingPiecesOnPath() {
@@ -59,21 +52,21 @@ public class Judge {
         minVal = Math.min(piecePosition.getValue(), pieceDestination.getValue());
         maxVal = Math.max(piecePosition.getValue(), pieceDestination.getValue());
 
-        if(IsVerticalLine()) {
+        if(MoveConditions.IsVerticalLine(piecePosition, pieceDestination)) {
             for(int val = minVal + 1; val < maxVal; val++) {
                 if(piecesPosition.getField(new Pair<>(piecePosition.getKey(), val)).piece != ' ') {
                    return true;
                 }
             }
         }
-        else if(IsHorizontalLine()) {
+        else if(MoveConditions.IsHorizontalLine(piecePosition, pieceDestination)) {
             for(int key = minKey + 1; key < maxKey; key++) {
                 if(piecesPosition.getField(new Pair<>(key, piecePosition.getValue())).piece != ' ') {
                     return true;
                 }
             }
         }
-        else if(IsDiagonalLine()) {
+        else if(MoveConditions.IsDiagonalLine(piecePosition, pieceDestination)) {
             int x1 = piecePosition.getKey(), x2 = pieceDestination.getKey();
             int y1 = piecePosition.getValue(), y2 = pieceDestination.getValue();
 
@@ -101,18 +94,26 @@ public class Judge {
         return false;
     }
 
-    private boolean CanKingMove() { return (IsVerticalLine() || IsHorizontalLine() || IsDiagonalLine()) && IsOneFieldAway(); }
+    private boolean CanKingMove() {
+        return (MoveConditions.IsVerticalLine(piecePosition, pieceDestination) ||
+                MoveConditions.IsHorizontalLine(piecePosition, pieceDestination) ||
+                MoveConditions.IsDiagonalLine(piecePosition, pieceDestination)) &&
+                MoveConditions.IsOneFieldAway(piecePosition, pieceDestination);
+    }
 
     private boolean CanQueenMove() {
-        return IsVerticalLine() || IsHorizontalLine() || IsDiagonalLine();
+        return MoveConditions.IsVerticalLine(piecePosition, pieceDestination) ||
+                MoveConditions.IsHorizontalLine(piecePosition, pieceDestination) ||
+                MoveConditions.IsDiagonalLine(piecePosition, pieceDestination);
     }
 
     private boolean CanRookMove() {
-        return IsVerticalLine() || IsHorizontalLine();
+        return MoveConditions.IsVerticalLine(piecePosition, pieceDestination) ||
+                MoveConditions.IsHorizontalLine(piecePosition, pieceDestination);
     }
 
     private boolean CanBishopMove() {
-        return IsDiagonalLine();
+        return MoveConditions.IsDiagonalLine(piecePosition, pieceDestination);
     }
 
     private boolean CanKnightMove() {
@@ -124,7 +125,7 @@ public class Judge {
             return true;
         }
 
-        if(IsVerticalLine()) {
+        if(MoveConditions.IsVerticalLine(piecePosition, pieceDestination)) {
             if(chessField.isBlack) {
                 if(piecePosition.getValue() == 6) {
                     return piecePosition.getValue() - pieceDestination.getValue() <= 2;
@@ -144,25 +145,5 @@ public class Judge {
         }
 
         return false;
-    }
-
-    private boolean IsVerticalLine() {
-        return piecePosition.getKey() - pieceDestination.getKey() == 0;
-    }
-
-    private boolean IsHorizontalLine() {
-        return piecePosition.getValue() - pieceDestination.getValue() == 0;
-    }
-
-    private boolean IsDiagonalLine() {
-        return MathExtended.IsSquareDiagonal(piecePosition, pieceDestination);
-    }
-
-    private boolean IsOneFieldAway() {
-        if(Math.abs(piecePosition.getKey() - pieceDestination.getKey()) > 1)
-            return false;
-        if(Math.abs(piecePosition.getValue() - pieceDestination.getValue()) > 1)
-            return false;
-        return true;
     }
 }
