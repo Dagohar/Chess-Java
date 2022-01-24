@@ -11,6 +11,13 @@ public class ChessBoard {
     public void CreateBoard() {
         boardPieces = new BoardPiecesPosition();
 
+        if(PlayerInput.WhitesTurn) {
+            System.out.println("RUCH BIAŁYCH");
+        }
+        else {
+            ConsoleCommands.printStringBlack("RUCH CZARNYCH");
+        }
+
         int horCoordsIndex = 56;
         System.out.print((char)horCoordsIndex-- + " |");
 
@@ -76,6 +83,13 @@ public class ChessBoard {
 
     public void ShowBoard()
     {
+        if(PlayerInput.WhitesTurn) {
+            System.out.println("RUCH BIAŁYCH");
+        }
+        else {
+            ConsoleCommands.printStringBlack("RUCH CZARNYCH");
+        }
+
         int horCoordsIndex = 56;
 
         for(int i = 0; i < 8; i++) {

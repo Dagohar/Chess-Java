@@ -1,5 +1,6 @@
 package com.company;
 
+import custom.exceptions.*;
 import javafx.util.Pair;
 import java.util.Scanner;
 
@@ -15,6 +16,7 @@ public class PlayerInput {
         return Converter.ChessToNumberCoordinates(destination);
     }
 
+    public static boolean WhitesTurn = true;
     private boolean WrongMove = false;
 
     private final Scanner scanner = new Scanner(System.in);
@@ -45,9 +47,21 @@ public class PlayerInput {
             if(input.length() != 2) { throw new StringIndexOutOfBoundsException(); }
             position = new Pair<>(Character.toUpperCase(input.charAt(0)), input.charAt(1) - 48);
             if(!IsInputValid(position)) { throw new StringIndexOutOfBoundsException(); }
+
+            BoardPiecesPosition.ChessField chessField = piecesPosition.getField(Converter.ChessToNumberCoordinates(position));
+            if(chessField.piece == 32) { throw new EmptyFieldException(); }
+            if(chessField.isBlack == WhitesTurn) { throw new WrongColorException(); }
         }
         catch (StringIndexOutOfBoundsException e) {
-            ConsoleCommands.printStringRedLn("Wykryto niedozwolony ruch. Spróbuj jeszcze raz.");
+            ConsoleCommands.printStringRedLn("Wykryto złą pozycję.");
+            TakePositionInput();
+        }
+        catch (WrongColorException wce) {
+            ConsoleCommands.printStringRedLn(wce.getMessage());
+            TakePositionInput();
+        }
+        catch (EmptyFieldException efe) {
+            ConsoleCommands.printStringRedLn(efe.getMessage());
             TakePositionInput();
         }
     }
@@ -62,7 +76,7 @@ public class PlayerInput {
             if(!IsInputValid(destination)) { throw new StringIndexOutOfBoundsException(); }
         }
         catch (StringIndexOutOfBoundsException e) {
-            ConsoleCommands.printStringRedLn("Wykryto złą pozycję. Spróbuj jeszcze raz.");
+            ConsoleCommands.printStringRedLn("Wykryto złą pozycję.");
             TakeDestinationInput();
         }
     }
@@ -78,6 +92,7 @@ public class PlayerInput {
     {
         if(judge.CanMove(getNumberPosition(), getNumberDestination())) {
             board.UpdateBoard(getNumberPosition(), getNumberDestination());
+            WhitesTurn = !WhitesTurn;
             board.MoveNumber++;
         }
         else
