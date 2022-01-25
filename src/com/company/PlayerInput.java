@@ -46,9 +46,12 @@ public class PlayerInput {
 
     // Przyjmuje pozycję figury, którą chcemy poruszyć
     private void TakePositionInput() {
+        PrintColoredText.printStringBlueLn("Aby wyjść z programu wpisz teraz {q}");
         System.out.print("Wpisz pozycję figury, którą chcesz poruszyć np. {E2}: ");
         try {
             String input = scanner.nextLine();
+            if(input.equals("q"))
+                System.exit(0);
             if(input.length() != 2) { throw new StringIndexOutOfBoundsException(); }
 
             position = new Pair<>(Character.toUpperCase(input.charAt(0)), input.charAt(1) - 48);
@@ -89,6 +92,7 @@ public class PlayerInput {
         }
     }
 
+    // Sprawdza czy podana pozycja nie wykracza po za szachownicę
     private boolean IsInputValid(Pair<Character, Integer> input) {
         Pair<Integer, Integer> numberCoords = Converter.ChessToNumberCoordinates(input);
 
@@ -96,6 +100,7 @@ public class PlayerInput {
                 (numberCoords.getValue() >= 0 && numberCoords.getValue() <= 7);
     }
 
+    // Po sprawdzeniu legalności ruchu przeprowadź ruch
     private void Move()
     {
         if(judge.CanMove(getNumberPosition(), getNumberDestination())) {
@@ -108,6 +113,7 @@ public class PlayerInput {
             WrongMove = true;
     }
 
+    // Wyświetl w terminalu szczególy dotyczące ruchu oraz zapisz go do pliku w notacji algebraicznej
     private void DisplayMoveDetails() {
         System.out.print("\033[H\033[2J"); //Clear screen
         System.out.flush();
