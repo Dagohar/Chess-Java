@@ -13,9 +13,10 @@ public class GamePositionJudge {
         this.piecesPosition = piecesPosition;
     }
 
+    // FIXME: Nad tą metodą pracowało dwóch programistów przez około 3 godziny.
     // Szach
     public boolean IsChecked(Pair<Integer, Integer> kingPosition , boolean isKingBlack) {
-        // FIXME: Ten kod został napisany w 20 minut na kolanie. Musi Pan doktor wybaczyć, że taki szajs, ale przynajmniej działa... chyba...
+        // FIXME: Ten kod został napisany w 3 godziny na kolanie. Musi Pan doktor wybaczyć, że taki szajs, ale przynajmniej działa... chyba...
         // FIXME: O matko boska częstochowska
         if(HorizontalCheck(kingPosition,isKingBlack, false))
             return true;
@@ -121,29 +122,6 @@ public class GamePositionJudge {
             if (field.piece == 'S' && field.isBlack != isKingBlack)
                 return true;
         }
-        return false;
-    }
-
-    // TODO: Mat
-    public boolean IsMated(boolean isKingBlack) {
-
-
-        return false;
-    }
-
-
-    // TODO: Pat
-    public boolean IsStalemated(boolean isKingBlack) {
-
-
-        return false;
-    }
-
-
-    // TODO: Roszada
-    public boolean CanCastle() {
-
-
         return false;
     }
 }
