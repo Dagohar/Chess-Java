@@ -27,12 +27,12 @@ public class Judge {
         this.chessField = piecesPosition.getField(piecePosition);
 
         switch(chessField.piece) {
-            case 'K': isMoveValid = CanKingMove(); break;
-            case 'H': isMoveValid = !IsKingInDangerOnMove() && CanQueenMove() && !IsAvoidingPiecesOnPath(); break;
-            case 'W': isMoveValid = !IsKingInDangerOnMove() && CanRookMove() && !IsAvoidingPiecesOnPath(); break;
-            case 'G': isMoveValid = !IsKingInDangerOnMove() && CanBishopMove() && !IsAvoidingPiecesOnPath(); break;
-            case 'S': isMoveValid = !IsKingInDangerOnMove() && CanKnightMove(); break;
-            case 'P': isMoveValid = !IsKingInDangerOnMove() && CanPawnMove() && !IsAvoidingPiecesOnPath(); break;
+            case 'K': isMoveValid = CanKingMove() && !IsKingInDangerOnMove(); break;
+            case 'H': isMoveValid = CanQueenMove() && !IsAvoidingPiecesOnPath(); break;
+            case 'W': isMoveValid = CanRookMove() && !IsAvoidingPiecesOnPath(); break;
+            case 'G': isMoveValid = CanBishopMove() && !IsAvoidingPiecesOnPath(); break;
+            case 'S': isMoveValid = CanKnightMove(); break;
+            case 'P': isMoveValid = CanPawnMove() && !IsAvoidingPiecesOnPath(); break;
         }
 
         if(isMoveValid && piecesPosition.getField(pieceDestination).piece != ' ') {
@@ -100,8 +100,8 @@ public class Judge {
 
     // Sprawdza czy poruszenie figurą nie spowoduje odsłonięcia króla na szach
     private boolean IsKingInDangerOnMove() {
-        //TODO:
-        return false;
+        if(PlayerInput.WhitesTurn) { return gamePositionJudge.IsChecked(pieceDestination, false); }
+        else { return gamePositionJudge.IsChecked(pieceDestination, true); }
     }
 
     private boolean CanKingMove() {
