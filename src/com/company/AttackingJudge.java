@@ -2,6 +2,7 @@ package com.company;
 
 import javafx.util.Pair;
 
+// Klasa zajmuje sprawdzaniem atakowania innych figur
 public class AttackingJudge {
     private final BoardPiecesPosition piecesPosition;
 
@@ -38,27 +39,6 @@ public class AttackingJudge {
         return chessField.isBlack == piecesPosition.getField(pieceDestination).isBlack;
     }
 
-    //region This methods are not required as these pieces attack the same as they move
-    private boolean CanQueenAttack() {
-        //TODO:
-        return true;
-    }
-
-    private boolean CanBishopAttack() {
-        //TODO:
-        return true;
-    }
-
-    private boolean CanKnightAttack() {
-        //TODO:
-        return true;
-    }
-
-    private boolean CanRookAttack() {
-        //TODO:
-        return true;
-    }
-    //endregion
     private boolean CanPawnAttack() {
         if(chessField.isBlack) {
             return (Math.abs(piecePosition.getKey() - pieceDestination.getKey()) == 1) &&

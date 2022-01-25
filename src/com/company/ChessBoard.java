@@ -93,6 +93,7 @@ public class ChessBoard {
         }
     }
 
+    // Odświeża UI szachownicy po każdym ruchu
     public void ShowBoard()
     {
         if(PlayerInput.WhitesTurn) {

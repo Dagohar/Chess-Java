@@ -50,6 +50,7 @@ public class Judge {
             return gamePositionJudge.IsChecked(GamePositionJudge.KingPositionWhite, false);
     }
 
+    // Sprawdza czy na trasie figury nie znajduje się inna figura (wyjątkiem jest skoczek)
     private boolean IsAvoidingPiecesOnPath() {
         int minKey, maxKey;
         int minVal, maxVal;
@@ -97,6 +98,7 @@ public class Judge {
         return false;
     }
 
+    // Sprawdza czy poruszenie figurą nie spowoduje odsłonięcia króla na szach
     private boolean IsKingInDangerOnMove() {
         //TODO:
         return false;

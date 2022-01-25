@@ -2,16 +2,15 @@ package com.company;
 
 import javafx.util.Pair;
 
+// Klasa zawiera pozycje i oznaczenia wszystkich figur na szachownicy
 public class BoardPiecesPosition {
     public class ChessField {
         public char piece;
         public boolean isBlack;
-        public boolean isChecked;
 
         public ChessField() {
             piece = ' ';
             isBlack = false;
-            isChecked = false;
         }
 
         public ChessField(char piece, boolean isBlack) {

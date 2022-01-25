@@ -3,6 +3,7 @@ package com.company;
 import custom.math.MathExtended;
 import javafx.util.Pair;
 
+// Klasa sprawdza czy spełniony jest dany warunek dotyczący ruchu
 public class MoveConditions {
     public static boolean IsVerticalLine(Pair<Integer, Integer> pos, Pair<Integer, Integer> des) {
         return pos.getKey() - des.getKey() == 0;
