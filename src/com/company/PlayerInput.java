@@ -105,7 +105,25 @@ public class PlayerInput {
     {
         if(judge.CanMove(getNumberPosition(), getNumberDestination())) {
             board.UpdateBoard(getNumberPosition(), getNumberDestination());
-            Check = judge.CheckForCheck();
+            if(!Check)
+            {
+                Check = judge.CheckForCheck(WhitesTurn);
+            }
+            else
+            {
+                if (judge.CheckForCheck(!WhitesTurn))
+                {
+                    System.out.print("\033[H\033[2J"); //Clear screen
+                    System.out.flush();
+                    System.out.println();
+                    PrintColoredText.printStringBlueLn("KONIEC GRY! WYGRAŁ: " + (WhitesTurn == true ? "CZARNY" : "BIAŁY"));
+                    System.exit(0);
+                }
+                else
+                {
+                    Check = false;
+                }
+            }
             WhitesTurn = !WhitesTurn;
             board.MoveNumber++;
         }

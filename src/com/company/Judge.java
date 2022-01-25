@@ -42,9 +42,9 @@ public class Judge {
         return isMoveValid;
     }
 
-    public boolean CheckForCheck()
+    public boolean CheckForCheck(boolean WhitesTurn)
     {
-        if(PlayerInput.WhitesTurn)
+        if(WhitesTurn)
             return gamePositionJudge.IsChecked(GamePositionJudge.KingPositionBlack, true);
         else
             return gamePositionJudge.IsChecked(GamePositionJudge.KingPositionWhite, false);

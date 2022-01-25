@@ -65,7 +65,6 @@ public class GamePositionJudge {
         for(int i = 1; kingPosition.getKey() + i * x <= 7 && kingPosition.getKey() + i * x >= 0 && kingPosition.getValue() + i * y <= 7 && kingPosition.getValue() + i * y >= 0; i++)
         {
             BoardPiecesPosition.ChessField field = piecesPosition.getField(new Pair<>(kingPosition.getKey().intValue() + i * x, kingPosition.getValue().intValue() + i * y));
-            System.out.print(field.piece);
             if ((field.piece == 'H' || field.piece == 'G') && field.isBlack != isKingBlack)
             {
                 return true;
